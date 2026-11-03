@@ -1,0 +1,66 @@
+{
+  "updated": "2026-11-03T15:06:28+00:00",
+  "source": "Rafter J management system",
+  "units": [
+    {
+      "unit": "16",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "22",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "32",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "34",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "35",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "44",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "46",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "48",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "49",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "56",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "A5",
+      "size": "10x10",
+      "status": "Available"
+    },
+    {
+      "unit": "B2",
+      "size": "10x10",
+      "status": "Available"
+    }
+  ]
+}

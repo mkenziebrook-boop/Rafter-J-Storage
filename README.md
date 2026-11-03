@@ -8,7 +8,7 @@ The public website for Rafter J Storage Units, 36 Hunters Circle, Victoria, TX.
 | `sign.html` | Confirmed customers only (via a link you send) | Full rental agreement with initials and e-signature, then sends them to pay the deposit |
 | `admin.html` | You | Makes the signing link for a customer and lets you text or email it in one tap |
 
-All settings (phone, prices, deposit, fees, payment links, Google Sheet link) are in **`config.js`**.
+All settings (phone, prices, deposit, fees, payment links) are in **`config.js`**.
 Every form is emailed to the inbox tied to the Web3Forms key in `config.js`
 (the same key the color selection sites use).
 
@@ -19,22 +19,23 @@ Every form is emailed to the inbox tied to the Web3Forms key in `config.js`
 3. Open **rafterjstorage.com/admin.html** on your phone. Enter the unit, size and move-in date, then tap **Make Signing Link** → **Text It**.
 4. They read, initial and sign the agreement. You get an email titled **"SIGNED AGREEMENT: …"** with all their info. Their screen then takes them to the $35 deposit payment.
 5. In QuickBooks, add them as a customer and create a **recurring monthly invoice**: $50 or $90, dated the 1st, due the 10th. QuickBooks emails each bill, and the $5 late fee is already turned on.
-6. When they come by: check their photo ID, give them the gate code, countersign the agreement (the email notes it as pending), and mark the unit **Rented** in the sheet.
+6. When they come by: check their photo ID, give them the gate code, countersign the agreement (the email notes it as pending), and mark the unit **Rented** in the management system.
 
 ## Updating which units are open
 
-### Option A: Google Sheet (recommended, one-time setup)
+The website's unit list comes from the **Rafter J management system**
+(your Claude unit map). Every morning a scheduled Claude run reads which
+units are marked **Available** there and writes them to `units.json` in
+this repo; GitHub Pages republishes in a minute or two.
 
-1. In Google Sheets: **File → Import → Upload** `units.csv` from this folder.
-2. Keep the columns **Unit, Size, Status, Notes**. Status is `Available`, `Reserved` or `Rented`. Only `Available` units show on the site.
-3. **File → Share → Publish to web.** Pick the sheet, choose **Comma-separated values (.csv)**, and click **Publish**. Copy the link.
-4. Paste that link into `config.js` as `unitsSheetCsvUrl: "…"`.
-
-After that, change a unit's Status on your phone and the website shows it right away. Add any other units (rented ones too) whenever you like.
-
-### Option B: no sheet
-
-Edit `FALLBACK_UNITS` in `config.js`.
+- To change what the website shows, change the unit's **Status** in the
+  management system. It appears on the website after the next morning sync,
+  or right away if you ask Claude to "sync the storage website".
+- Only the unit number and size are copied. Tenant names, phones,
+  addresses, balances and notes never leave the management system.
+- Units with no size filled in are treated as 10x10.
+- `tools/sync_units.py` does the conversion; `FALLBACK_UNITS` in
+  `config.js` is only a backup if `units.json` can't load.
 
 ### A5 + B5
 

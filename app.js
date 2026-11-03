@@ -5,46 +5,19 @@ function normSize(s) {
   return String(s || "").toLowerCase().replace(/\s+/g, "").replace("×", "x");
 }
 
-function parseCsv(text) {
-  const rows = [];
-  let row = [], cell = "", quoted = false;
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-    if (quoted) {
-      if (ch === '"' && text[i + 1] === '"') { cell += '"'; i++; }
-      else if (ch === '"') quoted = false;
-      else cell += ch;
-    } else if (ch === '"') quoted = true;
-    else if (ch === ",") { row.push(cell); cell = ""; }
-    else if (ch === "\n" || ch === "\r") {
-      if (ch === "\r" && text[i + 1] === "\n") i++;
-      row.push(cell); rows.push(row); row = []; cell = "";
-    } else cell += ch;
-  }
-  if (cell !== "" || row.length) { row.push(cell); rows.push(row); }
-  return rows.filter((r) => r.some((c) => c.trim() !== ""));
-}
-
+/* units.json is written by the daily sync from the Rafter J management
+   system (see tools/sync_units.py). It lists only open units. */
 async function loadUnits() {
-  if (!SITE.unitsSheetCsvUrl) return { units: FALLBACK_UNITS, live: false };
   try {
-    const url = SITE.unitsSheetCsvUrl + (SITE.unitsSheetCsvUrl.includes("?") ? "&" : "?") + "t=" + Date.now();
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch("units.json?t=" + Date.now(), { cache: "no-store" });
     if (!res.ok) throw new Error("HTTP " + res.status);
-    const rows = parseCsv(await res.text());
-    const head = rows.shift().map((h) => h.trim().toLowerCase());
-    const col = (name) => head.indexOf(name);
-    const units = rows
-      .map((r) => ({
-        unit: (r[col("unit")] || "").trim(),
-        size: normSize(r[col("size")]),
-        status: (r[col("status")] || "").trim(),
-        notes: col("notes") >= 0 ? (r[col("notes")] || "").trim() : "",
-      }))
+    const data = await res.json();
+    const units = (data.units || [])
+      .map((u) => ({ unit: String(u.unit || "").trim(), size: normSize(u.size), status: u.status || "Available" }))
       .filter((u) => u.unit && u.size);
-    return { units, live: true };
+    return { units, live: true, updated: data.updated };
   } catch (err) {
-    console.warn("Couldn't load the units sheet, using the built-in list.", err);
+    console.warn("Couldn't load units.json, using the built-in list.", err);
     return { units: FALLBACK_UNITS, live: false };
   }
 }
@@ -73,7 +46,7 @@ function availabilityBySize(units) {
 }
 
 /* ---------- Rendering ---------- */
-function renderUnits(open, live) {
+function renderUnits(open, live, updated) {
   const grid = document.getElementById("sizeGrid");
   grid.innerHTML = "";
   Object.entries(SITE.sizes).forEach(([size, info]) => {
@@ -105,8 +78,9 @@ function renderUnits(open, live) {
     grid.appendChild(card);
   });
 
-  document.getElementById("unitsUpdated").textContent = live
-    ? "Availability updates as units are rented."
+  const when = updated ? new Date(updated) : null;
+  document.getElementById("unitsUpdated").textContent = live && when && !isNaN(when)
+    ? `Availability updated ${when.toLocaleDateString("en-US", { month: "long", day: "numeric" })}. Call us to double-check before you come by.`
     : "Availability is updated regularly. Call us to double-check before you come by.";
 }
 
@@ -230,8 +204,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
   });
 
-  const { units, live } = await loadUnits();
+  const { units, live, updated } = await loadUnits();
   const open = availabilityBySize(units);
-  renderUnits(open, live);
+  renderUnits(open, live, updated);
   fillUnitSelect(open);
 });

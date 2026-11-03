@@ -22,11 +22,6 @@ const SITE = {
      belongs to. Same key as the color selection sites. */
   web3formsKey: "b04a8faf-0c65-41f8-8bd7-c8f66238788c",
 
-  /* Google Sheet with your units. Leave as "" to use the list in
-     FALLBACK_UNITS below. To connect your sheet: in Google Sheets go to
-     File → Share → Publish to web → pick the sheet → "Comma-separated
-     values (.csv)" → Publish, and paste the link here. */
-  unitsSheetCsvUrl: "",
 
   /* Money */
   deposit: 35,
@@ -49,23 +44,21 @@ const SITE = {
   },
 };
 
-/* Used only when unitsSheetCsvUrl is empty or the sheet can't be reached.
-   Status is "Available", "Reserved" or "Rented". */
+/* Backup list, used only if units.json can't be loaded. The real list
+   comes from the management system via the daily sync. */
 const FALLBACK_UNITS = [
-  { unit: "10", size: "10x10", status: "Available" },
   { unit: "16", size: "10x10", status: "Available" },
   { unit: "22", size: "10x10", status: "Available" },
   { unit: "32", size: "10x10", status: "Available" },
-  { unit: "33", size: "10x10", status: "Available" },
   { unit: "34", size: "10x10", status: "Available" },
   { unit: "35", size: "10x10", status: "Available" },
   { unit: "44", size: "10x10", status: "Available" },
+  { unit: "46", size: "10x10", status: "Available" },
   { unit: "48", size: "10x10", status: "Available" },
   { unit: "49", size: "10x10", status: "Available" },
   { unit: "56", size: "10x10", status: "Available" },
-  { unit: "B2", size: "10x10", status: "Available" },
   { unit: "A5", size: "10x10", status: "Available" },
-  { unit: "B5", size: "10x10", status: "Available" },
+  { unit: "B2", size: "10x10", status: "Available" },
 ];
 
 /* Pairs of side-by-side units that can be rented together as one bigger
