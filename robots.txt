@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /sign.html
+Disallow: /admin.html
