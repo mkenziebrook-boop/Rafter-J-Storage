@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Page Not Found | Rafter J Storage Units</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; font-family: 'Open Sans', Arial, sans-serif; background: #f8f5ef; color: #2a2420; text-align: center; padding: 60px 20px; font-size: 18px; }
+  h1 { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 34px; margin: 0 0 10px; }
+  a.btn { display: inline-block; margin: 18px 6px 0; padding: 14px 24px; border-radius: 12px; background: #7c2d1f; color: #fff; text-decoration: none; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: .03em; }
+  a.btn--ghost { background: #fff; color: #2a2420; border: 2px solid #d9cfbd; }
+</style>
+</head>
+<body>
+  <h1>Page not found</h1>
+  <p>That page doesn't exist, but our storage units do.</p>
+  <a class="btn" id="home" href="/">See Available Units</a>
+  <a class="btn btn--ghost" href="tel:+13615763825">&#9742; (361) 576-3825</a>
+  <script>
+    // Works both on rafterjstorage.com and the github.io preview address.
+    var m = location.pathname.match(/^\/Rafter-J-Storage\//i);
+    if (m) document.getElementById("home").href = m[0];
+  </script>
+</body>
+</html>
