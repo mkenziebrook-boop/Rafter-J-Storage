@@ -51,9 +51,9 @@ Put pictures in a `photos/` folder. In `index.html`, find the three `photo-ph` p
 ## Going live on rafterjstorage.com
 
 1. **Buy the domain** at Cloudflare (cloudflare.com → Domain Registration) or Porkbun. It costs about $10–16/yr.
-2. **Create a public GitHub repo** named `rafterj-storage`, and put everything in this folder at its top level.
+2. **Repo**: this one, `Rafter-J-Storage` (already done).
 3. In that repo: **Settings → Pages → Build and deployment → Deploy from a branch → `main` / root → Save.**
-4. In the same Pages screen, set **Custom domain** to `rafterjstorage.com`. (The `CNAME` file here already says this.)
+4. In the same Pages screen, type `rafterjstorage.com` under **Custom domain** and click Save (GitHub adds a `CNAME` file for you).
 5. At your domain registrar, add these DNS records:
    - `A` records for `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
    - `CNAME` for `www` → `mkenziebrook-boop.github.io`
